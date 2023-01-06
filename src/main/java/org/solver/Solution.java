@@ -22,14 +22,14 @@ public class Solution {
     }
 
     private double e(double x, int k){
-        if (h * (k-1) <= x && x <= h*k) return (x - h*k + h)/h;
-        else if (h * k <= x && x <= h*(k+1)) return (h*k + h - x)/h;
+        if (Math.max(h * (k-1), 0) <= x && x <= h*k) return (x - h*(k-1))/h;
+        else if (h * k <= x && x <= Math.min(h*(k+1),2)) return (h*(k+1) - x)/h;
         else return 0;
     }
 
-    private double eDerivative(double x, double k){
-        if (h * (k-1) <= x && x <= h*k) return 1/h;
-        else if (h * k < x && x <= h*(k+1)) return -1/h;
+    private double ePrim(double x, double k){
+        if (Math.max(h * (k-1),0) <= x && x <= h*k) return 1/h;
+        else if (h * k < x && x <= Math.min(h*(k+1),2)) return -1/h;
         else return 0;
     }
 
@@ -58,8 +58,8 @@ public class Solution {
 
     private double BUV( int i, int j) {
         double[] range =  get_integrate_range(i, j);
-        double integral = gauss_integrator.integrate(Integer.MAX_VALUE, x ->  K(x) * eDerivative(x,i) * eDerivative(x,j), range[0], range[1]);
-        double second_value_to_subtract = (i < 2 && j < 2) ? K(0)*e(0,i)*e(0,j) : 0; // -k(0)v(0)u(o)
+        double integral = gauss_integrator.integrate(Integer.MAX_VALUE, x ->  K(x) * ePrim(x,i) * ePrim(x,j), range[0], range[1]);
+        double second_value_to_subtract = (i < 2 && j < 2) ? K(0)*e(0,i)*e(0,j) : 0;
         return integral - second_value_to_subtract;
     }
 

@@ -49,9 +49,9 @@ public class App extends Application {
     }
 
     public void addToSeries() {
-        for(int i = 0; i<result.length;i++) {
-            double scaled = 2.0 * i / (result.length - 1);
-            series.getData().add(new XYChart.Data<>(scaled, result[i]));
+        double h = 2.0/n;
+        for(int i = 1; i<result.length;i++) {
+            series.getData().add(new XYChart.Data<>(h*i, result[i-1]));
 
         }
     }
