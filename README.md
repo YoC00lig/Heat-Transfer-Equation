@@ -4,4 +4,4 @@ Solving the equation of heat transfer using the finite elements method (FEM). Dr
 <img src ="/readme/equation.png">
 <h3> 🔸 Obtained graph: </h3>
 <p> For the number of elements equal to: 5. </p>
-<img src ="/readme/result.png">
+<img src ="/readme/result.gif">
