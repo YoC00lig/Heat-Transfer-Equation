@@ -17,9 +17,6 @@ public class Solution {
         this.h = domain / n;
     }
 
-    private static double K(double x) {
-        return (0<= x && x<=1) ? 1.0 : 2.0;
-    }
     // e functions
     private double e(double x, int k){
         if (Math.max(h * (k-1), 0) <= x && x <= h*k) return (x - h*(k-1))/h;
@@ -58,14 +55,14 @@ public class Solution {
     // B(u,v) i L(v)
     private double BUV( int i, int j) {
         double[] range =  get_integrate_range(i, j);
-        double integral = gauss_integrator.integrate(Integer.MAX_VALUE, x ->  K(x) * ePrim(x, i) * ePrim(x, j), range[0], range[1]);
-        double second_value_to_subtract = (i < 2 && j <= 2) ? K(0)*e(0,i)*e(0,j) : 0;
+        double integral = gauss_integrator.integrate(Integer.MAX_VALUE, x ->  ePrim(x, i) * ePrim(x, j), range[0], range[1]);
+        double second_value_to_subtract = (i < 2 && j <= 2) ? e(0,i)*e(0,j) : 0;
         return integral - second_value_to_subtract;
     }
 
     private RealVector LV(double size) {
         RealVector L = new ArrayRealVector((int) size, 0);
-        for (int i = 0 ; i < size; i ++) L.setEntry(i, -K(0)*20*e(0,i));
+        for (int i = 0 ; i < size; i ++) L.setEntry(i, -20*e(0,i));
         return L;
     }
 
