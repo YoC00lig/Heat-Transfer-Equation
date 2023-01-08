@@ -29,6 +29,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+
         addToSeries();
         Scene scene = new Scene(chart, 500, 500);
         primaryStage.setScene(scene);

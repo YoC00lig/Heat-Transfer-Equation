@@ -12,7 +12,7 @@ public class Solution {
 
 
     public Solution(int number_of_elements) {
-        this.gauss_integrator= new IterativeLegendreGaussIntegrator(2, Math.pow(0.1,5), Math.pow(0.1,5));
+        this.gauss_integrator= new IterativeLegendreGaussIntegrator(2, Math.pow(0.1,4), Math.pow(0.1,4));
         this.n = number_of_elements;
         this.h = domain / n;
     }
