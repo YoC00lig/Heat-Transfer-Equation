@@ -12,11 +12,10 @@ public class Solution {
 
 
     public Solution(int number_of_elements) {
-        this.gauss_integrator= new IterativeLegendreGaussIntegrator(2, Math.pow(0.1,4), Math.pow(0.1,4));
+        this.gauss_integrator= new IterativeLegendreGaussIntegrator(2, Math.pow(0.1,5), Math.pow(0.1,5));
         this.n = number_of_elements;
         this.h = domain / n;
     }
-
     // e functions
     private double e(double x, int k){
         if (Math.max(h * (k-1), 0) <= x && x <= h*k) return (x - h*(k-1))/h;
@@ -55,7 +54,7 @@ public class Solution {
     // B(u,v) i L(v)
     private double BUV( int i, int j) {
         double[] range =  get_integrate_range(i, j);
-        double integral = gauss_integrator.integrate(Integer.MAX_VALUE, x ->  ePrim(x, i) * ePrim(x, j), range[0], range[1]);
+        double integral = gauss_integrator.integrate(Integer.MAX_VALUE, x -> ePrim(x, i) * ePrim(x, j), range[0], range[1]);
         double second_value_to_subtract = (i < 2 && j <= 2) ? e(0,i)*e(0,j) : 0;
         return integral - second_value_to_subtract;
     }

@@ -1,13 +1,16 @@
 package org.solver;
 
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.util.List;
 
 public class App extends Application {
     private LineChart<Number, Number> chart;
@@ -21,18 +24,32 @@ public class App extends Application {
 
     public void init() {
         LineChartsCreate();
-        List<String> args = getParameters().getRaw();
-        n = Integer.parseInt(args.get(0));
-        Solution s = new Solution(n);
-        result = s.get_solution();
     }
 
     @Override
     public void start(Stage primaryStage) {
+        Label label = new Label("INPUT NUMBER OF ELEMENTS:");
+        Button button = new Button("DRAW GRAPH");
+        TextField input = new TextField("50");
+        VBox box = new VBox();
+        box.getChildren().addAll(label, input, button);
+        box.setAlignment(Pos.CENTER);
+        box.setSpacing(20);
+        input.setMaxWidth(100);
+        input.setAlignment(Pos.CENTER);
 
-        addToSeries();
-        Scene scene = new Scene(chart, 500, 500);
-        primaryStage.setScene(scene);
+        button.setOnAction(event -> {
+            n = Integer.parseInt(input.getText());
+            Solution s = new Solution(n);
+            result = s.get_solution();
+            addToSeries();
+            Scene scene = new Scene(chart, 500, 500);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        });
+
+        Scene start_scene = new Scene(box, 500, 500);
+        primaryStage.setScene(start_scene);
         primaryStage.show();
     }
 
@@ -41,7 +58,7 @@ public class App extends Application {
         final NumberAxis y = new NumberAxis();
 
         x.setLabel("x");
-        y.setLabel("u");
+        y.setLabel("f(x)");
 
         chart = new LineChart(x, y);
         chart.getData().add(series);
