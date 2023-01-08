@@ -3,5 +3,5 @@ Solving the equation of heat transfer using the finite elements method (FEM). Dr
 <h3> 🔸 Heat transfer equation: </h3>
 <img src ="/readme/equation.png">
 <h3> 🔸 Obtained graph: </h3>
-<p> For the number of elements equal to: 5. </p>
+<p> For the number of elements equal to: 50. </p>
 <img src ="/readme/result.gif">
