@@ -28,7 +28,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Label label = new Label("INPUT NUMBER OF ELEMENTS:");
+        Label label = new Label("INPUT NUMBER:");
         Button button = new Button("DRAW GRAPH");
         TextField input = new TextField("50");
         VBox box = new VBox();
@@ -68,7 +68,7 @@ public class App extends Application {
 
     public void addToSeries() {
         for(int i = 0; i< result.length;i++) {
-            double scaled = 2.0 * i / (result.length - 1);
+            double scaled = 2.0 * i / (result.length);
             series.getData().add(new XYChart.Data<>(scaled, result[i]));
 
         }

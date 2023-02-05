@@ -4,7 +4,6 @@ import org.apache.commons.math3.analysis.integration.IterativeLegendreGaussInteg
 import org.apache.commons.math3.linear.*;
 
 public class Solution {
-
     private final double n;
     private final IterativeLegendreGaussIntegrator gauss_integrator;
     private final double domain = 2.0;
@@ -12,21 +11,25 @@ public class Solution {
 
 
     public Solution(int number_of_elements) {
-        this.gauss_integrator= new IterativeLegendreGaussIntegrator(2, Math.pow(0.1,5), Math.pow(0.1,5));
+        this.gauss_integrator= new IterativeLegendreGaussIntegrator(3, Math.pow(0.1,4), Math.pow(0.1,4));
         this.n = number_of_elements;
         this.h = domain / n;
     }
-    // e functions
+
     private double e(double x, int k){
-        if (Math.max(h * (k-1), 0) <= x && x <= h*k) return (x - h*(k-1))/h;
-        else if (h * k < x && x <= Math.min(h*(k+1),2)) return (h*(k+1) - x)/h;
+        if (h * (k-1) < x && x <= h*k) return (x - h*(k-1))/h;
+        else if (h * k < x && x < Math.min(h*(k+1),2)) return (h*(k+1) - x)/h;
         else return 0;
     }
 
     private double ePrim(double x, double k){
-        if (Math.max(h * (k-1),0) <= x && x <= h*k) return 1/h;
-        else if (h * k < x && x <= Math.min(h*(k+1),2)) return -1/h;
+        if (h * (k-1) < x && x <= h*k) return 1/h;
+        else if (h * k < x && x < Math.min(h*(k+1),2)) return -1/h;
         else return 0;
+    }
+
+    private static double K(double x) {
+        return (0<= x && x<=1) ? 1.0 : 2.0;
     }
 
     private RealVector solve_equation(double size) {
@@ -51,17 +54,18 @@ public class Solution {
         double to = Math.min(get_from_to(i, i*h)[1], get_from_to(j, j*h)[1]);
         return new double[]{from, to};
     }
+
     // B(u,v) i L(v)
     private double BUV( int i, int j) {
         double[] range =  get_integrate_range(i, j);
-        double integral = gauss_integrator.integrate(Integer.MAX_VALUE, x -> ePrim(x, i) * ePrim(x, j), range[0], range[1]);
-        double second_value_to_subtract = (i < 2 && j <= 2) ? e(0,i)*e(0,j) : 0;
+        double integral = gauss_integrator.integrate(Integer.MAX_VALUE, x -> K(x) * ePrim(x, i) * ePrim(x, j), range[0], range[1]);
+        double second_value_to_subtract = (i < 2 && j < 2) ? K(0)*e(0,i)*e(0,j) : 0;
         return integral - second_value_to_subtract;
     }
 
     private RealVector LV(double size) {
         RealVector L = new ArrayRealVector((int) size, 0);
-        for (int i = 0 ; i < size; i ++) L.setEntry(i, -20*e(0,i));
+        for (int i = 0 ; i < size; i ++) L.setEntry(i, -20*K(0)*e(0,i));
         return L;
     }
 
